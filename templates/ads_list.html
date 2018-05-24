@@ -151,15 +151,30 @@
                   <hr>
                 {% endfor %}
                 <div class="panel-body">
-                  <div class="clearfix">
-                    <ul class="pagination pull-right">
-                      <li class="disabled"><span>«</span></li>
-                      <li class="active"><span>1 <span class="sr-only">(current)</span></span></li>
-                      <li><a href="?page=2" role="next">2</a></li>
-                      <li><a href="?page=3" role="next">3</a></li>
-                      <li><a href="?page=4" role="next">4</a></li>
-                      <li><a href="?page=2" role="next">»</a></li>
+                  <div class="clearfix text-center">
+                  {% if pages_num > 0 %}
+                    <ul class="pagination">
+                        {% if prev_url %}
+                          <li><a href="{{ prev_url }}"><span>«</span></a></li>
+                        {% else %}
+                          <li class="disabled"><a href="{{ prev_url }}"><span>«</span></a></li>
+                        {% endif %}
+                        {% for page in range(1, pages_num+1) %}
+                            {% if page == cur_page %}
+                                <li class="active"><span>{{ page }}<span class="sr-only">(current)</span></span></li>
+                            {% else %}
+                                <li><a href="?page={{ page }}" role="next">{{ page }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if next_url %}
+                          <li><a href="{{ next_url }}"><span>&raquo;</span></a></li>
+                        {% else %}
+                          <li class="disabled"><a href="{{ next_url }}"><span>&raquo;</span></a></li>
+                        {% endif %}
                     </ul>
+                      {% else %}
+                        <h3>К сожалению, по таким параметрам объявлений нет.</h3>
+                  {% endif %}
                   </div>
                 </div>
               </div>
@@ -168,7 +183,6 @@
         </div>
       </div>
     </div><!-- /.container -->
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   </body>
