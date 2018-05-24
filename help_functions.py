@@ -11,7 +11,7 @@ def ad_model2dict(ad):
         "under_construction": ad.under_construction,
         "description": ad.description,
         "price": ad.price,
-        "oblast_district": ad.oblast_district ,
+        "oblast_district": ad.oblast_district,
         "living_area": ad.living_area,
         "has_balcony": ad.has_balcony,
         "address": ad.address,

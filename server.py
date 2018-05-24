@@ -27,7 +27,9 @@ def ads_list():
     ads_pagination = ads_query_set.paginate(page, ads_per_page, False)
     ads = ads_pagination.items
     navigation_info = get_page_navigation_info(ads_pagination)
-    return render_template('ads_list.html', ads=[ad_model2dict(ad) for ad in ads],
+    return render_template(
+        'ads_list.html',
+        ads=[ad_model2dict(ad) for ad in ads],
         next_url=navigation_info["next_url"],
         prev_url=navigation_info["prev_url"],
         cur_page=navigation_info["cur_page"],

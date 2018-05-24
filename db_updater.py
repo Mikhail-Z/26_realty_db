@@ -37,7 +37,7 @@ def update_database_from_json(json_filename):
 
 if __name__ == "__main__":
     if len(sys.argv) == 2:
-        json_filename = sys.argv[1]
-        update_database_from_json(json_filename)
+        filename = sys.argv[1]
+        update_database_from_json(filename)
     else:
         print("Usage: python3 {} some_file.json".format(__file__))
