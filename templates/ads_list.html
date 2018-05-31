@@ -31,11 +31,12 @@
         <div class="col-md-9">
           <div class="row">
             <div class="col-sm-4">
-              <form role="form" class="panel panel-default" method="GET">
+              <form class="panel panel-default" method="GET" name="ads_filter">
                 <div class="panel-body">
                   <p>город / районный центр</p>
                   <div class="form-group">
                     <select name="oblast_district" class="form-control">
+                      <option value="">Любой</option>
                       <option value="Череповецкий район">Череповец</option>
                       <option value="Шекснинский район">Шексна</option>
                       <option value="Вологодский район">Вологда</option>
@@ -114,46 +115,46 @@
                       <span class="input-group-addon">р.</span>
                     </div>
                   </div>
-                  <button type="submit" class="btn btn-success">Показать</button>
+                  <button type="submit" class="btn btn-success" id="show_ads">Показать</button>
                 </div>
               </form>
             </div>
             <div class="col-sm-8">
-              <div class="panel panel-default">
-                {% for ad in ads %}
-                  <div class="panel-body">
-                    <div class="row">
-                      <div class="col-sm-12">
-                        <div>
-                          <div class="row">
-                            <div class="col-sm-7">
-                              <p><strong>Продается {{ ad.rooms_number }}-комнатная квартира</strong></p>
-                            </div>
-                            <div class="col-sm-5">
-                              <p class="text-right"><strong class="nowrap">{{ ad.price }} р.</strong></p>
+              <div class="panel panel-default" id="ads_list">
+                {% if pages_num > 0 %}
+                    {% for ad in ads %}
+                      <div class="panel-body">
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <div>
+                              <div class="row">
+                                <div class="col-sm-7">
+                                  <p><strong>Продается {{ ad.rooms_number }}-комнатная квартира</strong></p>
+                                </div>
+                                <div class="col-sm-5">
+                                  <p class="text-right"><strong class="nowrap">{{ ad.price }} р.</strong></p>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-sm-12">
+                                  <p>{{ ad.settlement }}, {{ ad.address }}</p>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                          <div class="row">
-                            <div class="col-sm-12">
-                              <p>{{ ad.settlement }}, {{ ad.address }}</p>
-                            </div>
+                          <div class="col-sm-12">
+                            <p>
+                              <span class="label label-success">комнат: {{ ad.rooms_number }}</span>
+                              <span class="label label-primary">{{ ad.premise_area }} кв.м.</span>
+                            </p>
                           </div>
                         </div>
                       </div>
-                      <div class="col-sm-12">
-                        <p>
-                          <span class="label label-success">комнат: {{ ad.rooms_number }}</span>
-                          <span class="label label-primary">{{ ad.premise_area }} кв.м.</span>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <hr>
-                {% endfor %}
-                <div class="panel-body">
-                  <div class="clearfix text-center">
-                  {% if pages_num > 0 %}
-                    <ul class="pagination">
+                      <hr>
+                    {% endfor %}
+                    <div class="panel-body">
+                      <div class="clearfix text-center">
+                        <ul class="pagination">
                         {% if prev_url %}
                           <li><a href="{{ prev_url }}"><span>«</span></a></li>
                         {% else %}
@@ -163,7 +164,7 @@
                             {% if page == cur_page %}
                                 <li class="active"><span>{{ page }}<span class="sr-only">(current)</span></span></li>
                             {% else %}
-                                <li><a href="?page={{ page }}" role="next">{{ page }}</a></li>
+                                <li><a href="?page={{ page }}">{{ page }}</a></li>
                             {% endif %}
                         {% endfor %}
                         {% if next_url %}
@@ -171,12 +172,14 @@
                         {% else %}
                           <li class="disabled"><a href="{{ next_url }}"><span>&raquo;</span></a></li>
                         {% endif %}
-                    </ul>
-                      {% else %}
-                        <h3>К сожалению, по таким параметрам объявлений нет.</h3>
+                        </ul>
+                      </div>
+                    </div>
+                  {% else %}
+                     <div class="panel-body">
+                         <h3>К сожалению, подходящих вариантов не найдено</h3>
+                     </div>
                   {% endif %}
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -185,5 +188,6 @@
     </div><!-- /.container -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='ads_by_filter_updater.js') }}"></script>
   </body>
 </html>

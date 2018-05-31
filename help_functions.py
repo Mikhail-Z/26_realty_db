@@ -3,6 +3,7 @@ from flask import url_for
 from models import RealtyAd
 from sys import maxsize
 from datetime import datetime
+from flask import render_template, jsonify
 
 
 def ad_model2dict(ad):
@@ -53,3 +54,24 @@ def filter_ads(request):
         RealtyAd.active == 1
     )
     return ads_query_set
+
+
+def generate_page_with_ads(ads, navigation_info):
+    return render_template(
+        "ads_list.html",
+        ads=[ad_model2dict(ad) for ad in ads],
+        next_url=navigation_info["next_url"],
+        prev_url=navigation_info["prev_url"],
+        cur_page=navigation_info["cur_page"],
+        pages_num=navigation_info["pages_num"]
+    )
+
+
+def generate_json_with_ads(ads, navigation_info):
+    return jsonify({
+        "ads": [ad_model2dict(ad) for ad in ads],
+        "next_url": navigation_info["next_url"],
+        "prev_url": navigation_info["prev_url"],
+        "cur_page": navigation_info["cur_page"],
+        "pages_num": navigation_info["pages_num"]
+    })

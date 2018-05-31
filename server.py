@@ -1,7 +1,10 @@
 from flask import Flask
-from flask import request, render_template
+from flask import request
 from models import db
-from help_functions import ad_model2dict, get_page_navigation_info, filter_ads
+from help_functions import (ad_model2dict, get_page_navigation_info, filter_ads,
+                            generate_json_with_ads, generate_page_with_ads)
+from flask import url_for
+
 
 
 def create_app():
@@ -27,14 +30,10 @@ def ads_list():
     ads_pagination = ads_query_set.paginate(page, ads_per_page, False)
     ads = ads_pagination.items
     navigation_info = get_page_navigation_info(ads_pagination)
-    return render_template(
-        'ads_list.html',
-        ads=[ad_model2dict(ad) for ad in ads],
-        next_url=navigation_info["next_url"],
-        prev_url=navigation_info["prev_url"],
-        cur_page=navigation_info["cur_page"],
-        pages_num=navigation_info["pages_num"]
-    )
+    if request.is_xhr:
+        return generate_json_with_ads(ads, navigation_info)
+    else:
+        return generate_page_with_ads(ads, navigation_info)
 
 
 if __name__ == "__main__":
