@@ -17,4 +17,5 @@ class RealtyAd(db.Model):
     rooms_number = db.Column(db.SmallInteger)
     premise_area = db.Column(db.Float)
     active = db.Column(db.Boolean)
+    ad_id = db.Column(db.Integer)
 
