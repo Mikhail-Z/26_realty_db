@@ -7,6 +7,7 @@ from server import app
 
 def dict2model(ad):
     new_ad = RealtyAd(
+        id=ad["id"],
         settlement=ad["settlement"],
         under_construction=ad["under_construction"],
         description=ad["description"],
