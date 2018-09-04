@@ -3,8 +3,6 @@ from flask import request
 from models import db
 from help_functions import (ad_model2dict, get_page_navigation_info, filter_ads,
                             generate_json_with_ads, generate_page_with_ads)
-from flask import url_for
-
 
 
 def create_app():

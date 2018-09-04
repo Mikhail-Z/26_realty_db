@@ -7,6 +7,7 @@ from server import app
 
 def dict2model(ad):
     new_ad = RealtyAd(
+        id=ad["id"],
         settlement=ad["settlement"],
         under_construction=ad["under_construction"],
         description=ad["description"],
@@ -19,7 +20,6 @@ def dict2model(ad):
         rooms_number=ad["rooms_number"],
         premise_area=ad["premise_area"],
         active=ad["active"],
-        ad_id=ad["id"]
     )
     return new_ad
 
@@ -29,10 +29,17 @@ def update_database_from_json(json_filename):
         ads = json.load(file)
 
     with app.app_context():
-        RealtyAd.query.update(dict(active=False))
+        # RealtyAd.query.update(dict(active=False))
         for ad in ads:
             new_ad = dict2model(ad)
-            db.session.add(new_ad)
+            old_ad = RealtyAd.query.filter_by(id=new_ad.id).first()
+            if old_ad is None:
+                db.session.add(new_ad)
+            else:
+                for full_column_name in old_ad.__table__.columns:
+                    short_column_name = str(full_column_name).split(".")[1]
+                    setattr(old_ad, short_column_name,
+                            getattr(new_ad, short_column_name))
         db.session.commit()
 
 

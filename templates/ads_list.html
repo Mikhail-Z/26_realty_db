@@ -189,5 +189,35 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="{{ url_for('static', filename='ads_by_filter_updater.js') }}"></script>
+    <script type="text/template" id="ad_template">
+        <div class="panel-body">
+            <div class="row">
+              <div class="col-sm-12">
+                <div id="ads_list">
+                  <div class="row">
+                    <div class="col-sm-7">
+                      <p><strong>Продается {rooms_number}-комнатная квартира</strong></p>
+                    </div>
+                    <div class="col-sm-5">
+                      <p class="text-right"><strong class="nowrap">{price} р.</strong></p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <p>{settlement}, {address}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <p>
+                  <span class="label label-success">комнат: {rooms_number}</span>
+                  <span class="label label-primary">{premise_area} кв.м.</span>
+                </p>
+              </div>
+            </div>
+        </div><hr>
+    </script>
+    <script src="../static/ads_by_filter_updater.js"></script>
   </body>
 </html>
