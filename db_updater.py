@@ -24,22 +24,25 @@ def dict2model(ad):
     return new_ad
 
 
+def copy_fields_values(model_to, model_from):
+    for full_column_name in model_from.__table__.columns:
+        short_column_name = str(full_column_name).split(".")[1]
+        setattr(model_to, short_column_name,
+                getattr(model_from, short_column_name))
+
+
 def update_database_from_json(json_filename):
     with open(json_filename, "r") as file:
         ads = json.load(file)
 
     with app.app_context():
-        # RealtyAd.query.update(dict(active=False))
         for ad in ads:
-            new_ad = dict2model(ad)
-            old_ad = RealtyAd.query.filter_by(id=new_ad.id).first()
+            tmp_ad = dict2model(ad)
+            old_ad = RealtyAd.query.filter_by(id=tmp_ad.id).first()
             if old_ad is None:
-                db.session.add(new_ad)
+                db.session.add(tmp_ad)
             else:
-                for full_column_name in old_ad.__table__.columns:
-                    short_column_name = str(full_column_name).split(".")[1]
-                    setattr(old_ad, short_column_name,
-                            getattr(new_ad, short_column_name))
+                copy_fields_values(old_ad, tmp_ad)
         db.session.commit()
 
 
